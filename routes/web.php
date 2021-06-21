@@ -1,12 +1,10 @@
 <?php
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\RecipeCategoryController;
+use App\Http\Controllers\IngredientController;
 
 
 use Illuminate\Support\Facades\Route;
-
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -35,4 +33,15 @@ Route::group([
 });
 
 
+Route::group([
+    'middleware' => ['api','cors'],
+    
+    'prefix' => 'api',
+],function() {
 
+    Route::get('/ingredient', [IngredientController::class, 'index'])->name('index');
+    Route::get('/ingredient/{IngredientId}', [IngredientController::class, 'show'])->name('show');
+    Route::post('/ingredient',[IngredientController::class,'store'])->name('store');
+    Route::patch('/ingredient/{IngredientId}', [IngredientController::class, 'update'])->name('update'); // NIY
+    Route::delete('/ingredient/{IngredientId}', [IngredientController::class, 'destroy'])->name('destroy'); // NIY
+});

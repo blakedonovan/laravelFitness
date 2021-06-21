@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\ServiceProvider;
-
+use Laravel\Sanctum\PersonalAccessToken as SanctumPersonalAccessToken;
 class BroadcastServiceProvider extends ServiceProvider
 {
     /**

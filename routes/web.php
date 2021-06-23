@@ -4,7 +4,10 @@ use App\Http\Controllers\RecipeCategoryController;
 use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\CookbookUsersController;
 use App\Http\Controllers\UserProgressController;
-
+use App\Http\Controllers\TrainingUnitsController;
+use App\Http\Controllers\IndividualTrainingController;
+use App\Http\Controllers\TrainingplansIndividualController;
+use App\Http\Controllers\TrainingplansDetailsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -78,33 +81,37 @@ Route::group([
 
 });
 
-$router->group([
-    'prefix' => 'individualTraining',
-], function () use ($router){
+Route::group([
+    'middleware' => ['api','cors'],
     
-    $router->get('/trainingList/{traineeID}', 'IndividualTrainingController@getTraineeLists');
-    $router->get('/trainingUnitsbyListID/{IndividualTrainingId}', 'IndividualTrainingController@trainingUnitsbyListID');
-    $router->get('/getTrainingCats', 'IndividualTrainingController@fetchTrainingUnitCat');
-    $router->get('/getTrainingCatSelection/{trainingCatID}', 'IndividualTrainingController@fetchTrainingCatSelection');
+    'prefix' => 'api',
+],function() {
 
+    Route::get('/getAll', [TrainingUnitsController::class, 'index'])->name('index');
+    Route::post('/addUnit', [TrainingUnitsController::class, 'addUnit'])->name('addUnit');
+    Route::post('/uploadFile', [TrainingUnitsController::class, 'uploadFile'])->name('uploadFile');
+    Route::put('/updateUnit/{id}', [TrainingUnitsController::class, 'updateUnit'])->name('updateUnit');
+    Route::post('/removeUnit/{id}', [TrainingUnitsController::class, 'removeUnit'])->name('removeUnit');
+});
 
-    $router->post('/addPlan', 'IndividualTrainingController@addPlan');
-    $router->post('/removeTrainingPlan/{TrainingplansIndividualId}', 'TrainingplansIndividualController@removePlan');
-
-
-    $router->post('/addTrainingUnit', 'TrainingplansDetailsController@addUnitToPlan');
-    $router->put('/updateTrainingUnit/{id}', 'TrainingplansDetailsController@updateUnit');
-    $router->post('/removeTrainingUnit/{IndividualTrainingId}', 'TrainingplansDetailsController@removeUnit');
-
+Route::group([
+    'middleware' => ['api','cors'],
     
+    'prefix' => 'api',
+],function() {
+
+    Route::get('/getTrainingCats', [IndividualTrainingController::class, 'fetchTrainingUnitCat'])->name('fetchTrainingUnitCat');
+    Route::get('/getTrainingCatSelection/{trainingCatID}', [IndividualTrainingController::class, 'fetchTrainingCatSelection'])->name('fetchTrainingCatSelection');
+    Route::post('/addPlan', [IndividualTrainingController::class, 'addPlan'])->name('addPlan');
+    Route::post('/removeTrainingPlan/{TrainingplansIndividualId}', [TrainingplansIndividualController::class, 'removePlan'])->name('removePlan');
+    Route::get('/trainingList/{traineeID}', [IndividualTrainingController::class, 'getTraineeLists'])->name('getTraineeLists');
+    Route::get('/trainingUnitsbyListID/{IndividualTrainingId}', [IndividualTrainingController::class, 'trainingUnitsbyListID'])->name('trainingUnitsbyListID');
+
+    Route::post('/addTrainingUnit', [TrainingplansDetailsController::class, 'addUnitToPlan'])->name('addUnitToPlan');
+    Route::put('/updateTrainingUnit/{id}', [TrainingplansDetailsController::class, 'updateUnit'])->name('updateUnit');
+    Route::post('/removeTrainingUnit/{IndividualTrainingId}', [TrainingplansDetailsController::class, 'removeUnit'])->name('removeUnit');
 });
 
 
-$router->group([
-    'prefix' => 'manageUsers',
-], function () use ($router){
-    $router->get('/getAll', 'CookbookUsersController@getAll');
-    $router->post('/addUnit','CookbookUsersController@addUnit') ;
-   $router->put('/updateUnit/{id}','CookbookUsersController@updateUnit') ;
-   $router->post('/removeUnit/{id}','CookbookUsersController@removeUnit') ;
-});
+
+

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\TrainingUnits;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Storage;
 class TrainingUnitsController extends Controller
 {
     /**
@@ -101,7 +101,7 @@ class TrainingUnitsController extends Controller
 
 public function uploadFile(Request $request){
 
-      
+    
     $images = (object) ['image' => ""];
 
 

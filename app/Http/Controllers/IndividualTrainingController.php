@@ -91,7 +91,7 @@ public function getTraineeLists($traineeID) {
 }
 
 public function trainingUnitsbyListID($IndividualTrainingId) {
-        
+        //Storage::put("file.txt","test");
     $IndividualTraining = 
  
     response()

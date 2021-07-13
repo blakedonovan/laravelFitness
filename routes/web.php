@@ -60,10 +60,12 @@ Route::group([
 
     Route::get('/profileList', [CookbookUsersController::class, 'index'])->name('index');
     Route::get('/profile/{userProfileId}', [CookbookUsersController::class, 'show'])->name('show');
+    Route::get('/getUserDetailsbyName/{username}', [CookbookUsersController::class, 'getUserDetailsbyName'])->name('getUserDetailsbyName');
     
     Route::post('/createProfile', [CookbookUsersController::class, 'store'])->name('store');
     Route::patch('/updateProfile/{userProfileId}', [CookbookUsersController::class, 'update'])->name('update');
     Route::delete('/deleteProfile/{userProfileId}', [CookbookUsersController::class, 'delete'])->name('delete');
+    
     Route::get('/test', [CookbookUsersController::class, 'test'])->name('test');
 });
 

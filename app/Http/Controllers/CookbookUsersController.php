@@ -92,4 +92,9 @@ class CookbookUsersController extends Controller
         'trainingplans_individuals.id')->
         join('trainingplans_individuals', 'trainingplans_individuals.user_id', '=', 'cb_userid')->get();
     }
+
+    public function getUserDetailsbyName($username){
+
+        return cookbook_users::select()->where('user_name' ,'=',$username )->get();
+    }
 }
